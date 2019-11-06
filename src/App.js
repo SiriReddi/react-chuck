@@ -1,26 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
+import Quote from "./components/quotes";
 import './App.css';
 
-function App() {
+class App extends Component{
+
+  state = {
+      //category: "dev"
+      category: []
+  };
+
+  changeCategory = (event) => {
+    this.setState({
+      category: "sport",
+      
+    });
+  };
+
+  handleChange = (event) => {
+    this.setState({
+
+      value: event.target.value
+    });
+  };
+
+
+  render(){
+    const {category} = this.state;
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    
+          <Quote category ={category}/> 
+          <button onClick ={() => this.changeCategory()}>
+            change Category
+          </button>
+          <select value ={this.state.value} onChange={this.handleChange}>
+            <option value ="dev"></option>
+            <option value ="sport"></option>
+            <option value="movies"></option>
+          </select>
+        
+        
     </div>
   );
+}
 }
 
 export default App;
