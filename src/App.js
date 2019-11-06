@@ -1,48 +1,40 @@
 import React, {Component} from 'react';
+import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import Quote from "./components/quotes";
+import CategoryList from "./components/categoryList";
+import Category from "./components/category";
 import './App.css';
 
-class App extends Component{
-
-  state = {
-      //category: "dev"
-      category: []
-  };
-
-  changeCategory = (event) => {
-    this.setState({
-      category: "sport",
-      
-    });
-  };
-
-  handleChange = (event) => {
-    this.setState({
-
-      value: event.target.value
-    });
-  };
-
-
-  render(){
-    const {category} = this.state;
+function App(){
   return (
     <div className="App">
-    
-          <Quote category ={category}/> 
-          <button onClick ={() => this.changeCategory()}>
-            change Category
-          </button>
-          <select value ={this.state.value} onChange={this.handleChange}>
-            <option value ="dev"></option>
-            <option value ="sport"></option>
-            <option value="movies"></option>
-          </select>
+      <header>
+        <h1> Chuck Reacts!</h1>
+      </header>
+      <Router>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+          </ul>
+        </nav>
+        <Route path="/" exact>
+          <CategoryList />
+        </Route> 
+        {/* <Route path="/category/:category_name?"
+              render={routeProps =>
+                <Quote {...routeProps} />}
+              /> */}
+          <Route path="/category/:category_name" component={Quote}/>
+          <Route path="/select" exact>
+          <Category />
+        </Route> 
         
-        
+      </Router>
     </div>
   );
 }
-}
+
 
 export default App;
