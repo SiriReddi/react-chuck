@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {loadData} from "../utils/loadData";
 
+
 class Category extends Component {
     state = {
         category : []
@@ -8,55 +9,61 @@ class Category extends Component {
 
 
     async componentDidMount() {
-        const category = await loadData(` https://api.chucknorris.io/jokes/random?category=${category}`);
+        this.getCategories();
+        
+    }
+
+    getCategories = async ()=>{
+
+        const category = await loadData(` https://api.chucknorris.io/jokes/categories`);
     
         this.setState({
                  category
             });
-    }
 
+    };
+    
+    
     
 
-    handleChange = (event) => {
-        const selectedValue= event.target.value;
-        this.props.onSelectChange(selectedValue);
+    handleChange = event => {
+
+        console.log("props are:", this.props);
+        
+        this.props.changeCategory(event.target.value);
+        
         
       };
+
     
 
     render() {
 
-        //const { category} = this.state;
-        const selectedData = this.props.selectedData;
-        const options = selectedData.map((data)=>
-                <option key ={data.id}
-                         value={data.id}
-                         >
-                         {data.name}
-                 </option>
-        );
+        const { category} = this.state;
+        const {options} = this.props;
+        
    
         return(
-         
-            <select onChange={this.handleChange}>
-                <option>Select Category</option>
-                {options}
-            </select>
-      
-    //         {category.map((category, id) => {
-    //                 return (
-    //                  <option key ={id}
-    //                      value={category.id}>{category.name} </option>
-                    
-    //                 );
-    //             })}
-    
-            
-       
-    )
-    
-    
-
+            <label>
+                <select onChange={this.handleChange}>
+                    {category.map((category, id) => {
+                        return (
+                            <option 
+                                key ={`category-${id}`}
+                                value={category}
+                                selected={
+                                    category == options ? true : false
+                                }
+                                >
+                                    {category} 
+                            </option>
+                        
+                        );
+                    })}
+        
+                </select>
+            </label>
+        );
     }
 }
 
